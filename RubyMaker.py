@@ -32,7 +32,7 @@ class RubyMaker(pygame.sprite.Sprite):
 
         #Load image and get rect
         self.current_sprite = 0
-        self.image = ruby_sprites[self.current_sprite]
+        self.image = self.ruby_sprites[self.current_sprite]
         self.image = self.image.get_rect()
         self.rect.bottomleft = (x,y)
 
