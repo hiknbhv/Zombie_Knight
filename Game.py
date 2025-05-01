@@ -31,11 +31,28 @@ class Game:
     def __init__(self):
         """Initialize the game"""
         # Set constant variables
+        self.running  =  True
+        self.STARTING_ROUND_TIME = 30
+        self.STARTING_ZOMBIE_CREATION_TIME = 5
         # TODO: assign True to self.running
         # TODO: assign 30 to self.STARTING_ROUND_TIME
         # TODO: assign 5 to self.STARTING_ZOMBIE_CREATION_TIME
 
         # Set game values
+        self.score = 0
+        self.round_number = 1
+        self.frame_count = 0
+        self.zombie_create_time = self.STARTING_ZOMBIE_CREATION_TIME
+
+        self.title_font = pygame.font.Font("./assets/fonts/Poltergeist.ttf", 48)
+
+        self.HUD.font = pygame.font.Font("./assets/fonts/Pixel.ttf", 24)
+
+        self.lost_ruby_sound = pygame.mixer.Sound("assets/sounds/lost_ruby.wav")
+
+        self.ruby_pickup_sound = pygame.mixer.Sound("assets/sounds/ruby_pickup.wav")
+
+        pygame.mixer.music.load("assets/sounds/level_music.wav")
         # TODO: assign 0 to self.score
         # TODO: assign 1 to self.round_number
         # TODO: assign 0 to self.frame_count
@@ -110,6 +127,12 @@ class Game:
         ]
 
         # Create sprite groups
+        self.main_title_group = pygame.sprite.Group()
+        self.platform_group = pygame.sprite.Group()
+        self.bullet_group = pygame.sprite.Group()
+        self.zombie_group = pygame.sprite.Group()
+        self.portal_group = pygame.sprite.Group()
+        self.ruby_group = pygame.sprite.Group()
         # TODO: assign pygame.sprite.Group() to the following self variables
         # main_tile_group, platform_group, player_group, bullet_group, zombie_group, portal_group, ruby_group
 
@@ -120,35 +143,54 @@ class Game:
             for col in range(len(self.tile_map[row])):
                 # Dirt tiles
                 if self.tile_map[row][col] == 1:
+                    Tile(col * 32, row * 32, 1, self.main_title_group)
                     # TODO: call the Tile() constructor passing col * 32, row * 32, 1, self.main_title_group
                 # Platform tiles
                 elif self.tile_map[row][col] == 2:
+                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
                     # TODO: call the Tile() constructor passing col * 32, row * 32, 2, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 3:
+                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
                     # TODO: call the Tile() constructor passing col * 32, row * 32, 3, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 4:
+                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
                     # TODO: call the Tile() constructor passing col * 32, row * 32, 4, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 5:
+                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
                     # TODO: call the Tile() constructor passing col * 32, row * 32, 5, self.main_title_group, self.platform_group
                 # Ruby Maker
                 elif self.tile_map[row][col] == 6:
+                    RubyMaker(col * 32, row * 32, self.main_tile_group)
                     # TODO: call the RubyMaker() constructor passing in col * 32, row * 32, self.main_tile_group
                 # Portals
                 elif self.tile_map[row][col] == 7:
+                    Portal(col * 32, row * 32, "green", self.portal_group)
                     # TODO: call the Portal() constructor passing in col * 32, row * 32, "green", and self.portal_group
 
                 elif self.tile_map[row][col] == 8:
+                    Portal(col * 32, row * 32, "purple", self.portal_group)
                     # TODO: call the Portal() constructor passing in col * 32, row * 32, "purple", and self.portal_group
                 # Player
                 elif self.tile_map[row][col] == 9:
+                    self.my_player = Player(col * 32 - 32, row * 32 + 32, self.platform_group, self.portal_group, self.bullet_group, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
+                    self.player_group.add(self.my_player)
                     #TODO: assign to self.my_player the Player() constructor passing col * 32 - 32, row * 32 + 32,
                     # self.platform_group, self.portal_group, self.bullet_group,
                     # self.WINDOW_WIDTH, self.WINDOW_HEIGHT
                     # TODO: call self.player_group's add function and pass in self.my_player
 
         # Load in a background image (we must resize)
+        self.background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
+
         # TODO: assign pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
         # to self.background_image
+        self.background_rect = self.background_image.get_rect()
+        self.background_rect.topleft = (0, 0)
+
+        self.pause_game("Zombie Knight", "Press 'Enter' to Begin")
+        pygame.mixer.music.play(-1, 0.0)
+
+        self.game_loop()
         # TODO: assign self.background_image.get_rect() to self.background_rect
         # TODO: assign (0, 0) to self.background_rect.topleft
 
