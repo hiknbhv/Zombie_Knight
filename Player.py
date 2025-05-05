@@ -202,134 +202,128 @@ class Player(pygame.sprite.Sprite):
         """Update the player"""
         self.move()
         self.check_collisions()
+        self.check_co
 
-    # TODO: call self.move()
-    # TODO: call self.check_collisions()
-    # TODO: call self.check_animations()
+        # TODO: call self.move()
+        # TODO: call self.check_collisions()
+        # TODO: call self.check_animations()
 
-    # Update the players mask
-    # TODO:  assign pygame.mask.from_surface(self.image) to self.mask.  HINT:  Remember how the from assign this to that works in previous examples and instructions.
+        # Update the players mask
+        # TODO:  assign pygame.mask.from_surface(self.image) to self.mask.  HINT:  Remember how the from assign this to that works in previous examples and instructions.
 
+        def move(self):
+            """Move the player"""
+            # Set the acceleration vector
+            self.acceleration = pygame.math.Vector2(0, self.VERTICAL_ACCELERATION)
 
-def move(self):
-    """Move the player"""
-    # Set the acceleration vector
-    self.acceleration = pygame.math.Vector2(0, self.VERTICAL_ACCELERATION)
+            # If the user is pressing a key, set the x-component of the acceleration to be non-zero
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
+                self.animate(self.move_left_sprites, .5)
+            elif keys[pygame.K_RIGHT]:
+                self.acceleration.x = self.HORIZONTAL_ACCELERATION
+                self.animate(self.move_right_sprites, .5)
+            else:
+                if self.velocity.x > 0:
+                    self.animate(self.idle_right_sprites, .5)
+                else:
+                    self.animate(self.idle_left_sprites, .5)
 
-    # If the user is pressing a key, set the x-component of the acceleration to be non-zero
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-        self.animate(self.move_left_sprites, .5)
-    elif keys[pygame.K_RIGHT]:
-        self.acceleration.x = self.HORIZONTAL_ACCELERATION
-        self.animate(self.move_right_sprites, .5)
-    else:
-        if self.velocity.x > 0:
-            self.animate(self.idle_right_sprites, .5)
-        else:
-            self.animate(self.idle_left_sprites, .5)
+            # Calculate new kinematics values: (4, 1) + (2, 8) = (6, 9)
+            self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
+            self.velocity += self.acceleration
+            self.position += self.velocity + 0.5 * self.acceleration
 
-    # Calculate new kinematics values: (4, 1) + (2, 8) = (6, 9)
-    self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
-    self.velocity += self.acceleration
-    self.position += self.velocity + 0.5 * self.acceleration
+            # Update rect based on kinematic calculations and add wrap around movement
+            if self.position.x < 0:
+                self.position.x = self.WINDOW_WIDTH
+            elif self.position.x > self.WINDOW_WIDTH:
+                self.position.x = 0
 
-    # Update rect based on kinematic calculations and add wrap around movement
-    if self.position.x < 0:
-        self.position.x = self.WINDOW_WIDTH
-    elif self.position.x > self.WINDOW_WIDTH:
-        self.position.x = 0
+            self.rect.bottomleft = self.position
 
-    self.rect.bottomleft = self.position
+        def check_collisions(self):
+            """Check for collisions with platforms and portals"""
+            # Collision check between player and platforms when falling
+            if self.velocity.y > 0:
+                collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
+                                                                 pygame.sprite.collide_mask)
+                if collided_platforms:
+                    self.position.y = collided_platforms[0].rect.top + 5
+                    self.velocity.y = 0
 
+            # Collision check between player and platform if jumping up
+            if self.velocity.y < 0:
+                collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
+                                                                 pygame.sprite.collide_mask)
+                if collided_platforms:
+                    self.velocity.y = 0
+                    while pygame.sprite.spritecollide(self, self.platform_group, False):
+                        self.position.y += 1
+                        self.rect.bottomleft = self.position
 
-def check_collisions(self):
-    """Check for collisions with platforms and portals"""
-    # Collision check between player and platforms when falling
-    if self.velocity.y > 0:
-        collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
-                                                         pygame.sprite.collide_mask)
-        if collided_platforms:
-            self.position.y = collided_platforms[0].rect.top + 5
-            self.velocity.y = 0
+            # Collision check for portals
+            if pygame.sprite.spritecollide(self, self.portal_group, False):
+                self.portal_sound.play()
+                # Determine which portal you are moving to
+                # Left and right
+                if self.position.x > self.WINDOW_WIDTH // 2:
+                    self.position.x = 86
+                else:
+                    self.position.x = self.WINDOW_WIDTH - 150
+                # Top and bottom
+                if self.position.y > self.WINDOW_HEIGHT // 2:
+                    self.position.y = 64
+                else:
+                    self.position.y = self.WINDOW_HEIGHT - 132
 
-    # Collision check between player and platform if jumping up
-    if self.velocity.y < 0:
-        collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
-                                                         pygame.sprite.collide_mask)
-        if collided_platforms:
-            self.velocity.y = 0
-            while pygame.sprite.spritecollide(self, self.platform_group, False):
-                self.position.y += 1
                 self.rect.bottomleft = self.position
 
-    # Collision check for portals
-    if pygame.sprite.spritecollide(self, self.portal_group, False):
-        self.portal_sound.play()
-        # Determine which portal you are moving to
-        # Left and right
-        if self.position.x > self.WINDOW_WIDTH // 2:
-            self.position.x = 86
-        else:
-            self.position.x = self.WINDOW_WIDTH - 150
-        # Top and bottom
-        if self.position.y > self.WINDOW_HEIGHT // 2:
-            self.position.y = 64
-        else:
-            self.position.y = self.WINDOW_HEIGHT - 132
+        def check_animations(self):
+            """Check to see if jump/fire animations should run"""
+            # Animate the player jump
+            if self.animate_jump:
+                if self.velocity.x > 0:
+                    self.animate(self.jump_right_sprites, .1)
+                else:
+                    self.animate(self.jump_left_sprites, .1)
 
-        self.rect.bottomleft = self.position
+            # Animate the player attack
+            if self.animate_fire:
+                if self.velocity.x > 0:
+                    self.animate(self.attack_right_sprites, .25)
+                else:
+                    self.animate(self.attack_left_sprites, .25)
 
+        def jump(self):
+            """Jump upwards if on a platform"""
+            # Only jump if on a platform
+            # TODO: check if pygame.sprite.spritecollide() is true passing in self. self.platform_group, and False into spritecollide()
+            # TODO: if so do the following numbered items.  The numbered items are in the if block.
+            # TODO: (1): call self.jump_sound's play() method
+            # TODO: (2): assign -1 * self.VERTICAL_JUMP_SPEED to self.velocity.y
+            # TODO: (3): assign True to self.animate_jump
 
-def check_animations(self):
-    """Check to see if jump/fire animations should run"""
-    # Animate the player jump
-    if self.animate_jump:
-        if self.velocity.x > 0:
-            self.animate(self.jump_right_sprites, .1)
-        else:
-            self.animate(self.jump_left_sprites, .1)
+        def fire(self):
+            """Fire a 'bullet' from a sword"""
+            # TODO: call self.slash_sound.play()
+            # TODO: call the Bullet constructor:  Bullet() passing in self.rect.centerx, self.rect.centery, self.bullet_group, and self
+            # TODO: assign True to self.animate_fire
 
-    # Animate the player attack
-    if self.animate_fire:
-        if self.velocity.x > 0:
-            self.animate(self.attack_right_sprites, .25)
-        else:
-            self.animate(self.attack_left_sprites, .25)
+        def reset(self):
+            """Reset the player's position"""
+            # TODO:  HINT:  remember assigning this to that means in code that = this.
+            # TODO: assign pygame.math.Vector2(0, 0) to self.velocity.
+            # TODO: assign pygame.math.Vector2(self.starting_x, self.starting_y) to self.position
+            # TODO: assign self.position to self.rect.bottomleft
 
-
-def jump(self):
-    """Jump upwards if on a platform"""
-    # Only jump if on a platform
-    # TODO: check if pygame.sprite.spritecollide() is true passing in self. self.platform_group, and False into spritecollide()
-    # TODO: if so do the following numbered items.  The numbered items are in the if block.
-    # TODO: (1): call self.jump_sound's play() method
-    # TODO: (2): assign -1 * self.VERTICAL_JUMP_SPEED to self.velocity.y
-    # TODO: (3): assign True to self.animate_jump
-
-
-def fire(self):
-    """Fire a 'bullet' from a sword"""
-    # TODO: call self.slash_sound.play()
-    # TODO: call the Bullet constructor:  Bullet() passing in self.rect.centerx, self.rect.centery, self.bullet_group, and self
-    # TODO: assign True to self.animate_fire
-
-
-def reset(self):
-    """Reset the player's position"""
-    # TODO:  HINT:  remember assigning this to that means in code that = this.
-    # TODO: assign pygame.math.Vector2(0, 0) to self.velocity.
-    # TODO: assign pygame.math.Vector2(self.starting_x, self.starting_y) to self.position
-    # TODO: assign self.position to self.rect.bottomleft
-
-
-def animate(self, sprite_list, speed):
-    """Animate the player's actions"""
-    # TODO: Check the condition with an if statement.  self.current_sprite < len(sprite_list) - 1.
-    # TODO: if the condition is true add speed to self.current_sprite.  HINT:  be careful here.  Remember how this statement works.
-    # TODO: else:  do the following.  I will number the TODO's that are contained in the self
-    # TODO: (1):  assign 0 to self.current_sprite
-    # TODO: (2): check if self.animate_jump is true.  If so assign False to self.animate_jump.
-    # TODO: (3): check if self.animate_fire is true.  If so assign False to self.animate_fire.
-    # TODO: assign sprite_list[int(self.current_sprite)] to self.image.
+        def animate(self, sprite_list, speed):
+            """Animate the player's actions"""
+            # TODO: Check the condition with an if statement.  self.current_sprite < len(sprite_list) - 1.
+            # TODO: if the condition is true add speed to self.current_sprite.  HINT:  be careful here.  Remember how this statement works.
+            # TODO: else:  do the following.  I will number the TODO's that are contained in the self
+            # TODO: (1):  assign 0 to self.current_sprite
+            # TODO: (2): check if self.animate_jump is true.  If so assign False to self.animate_jump.
+            # TODO: (3): check if self.animate_fire is true.  If so assign False to self.animate_fire.
+            # TODO: assign sprite_list[int(self.current_sprite)] to self.image.
