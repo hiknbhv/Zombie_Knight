@@ -216,39 +216,66 @@ class Game:
                         self.my_player.fire()
 
             # Blit the background
+            Game.display_surface.blit(self.background_image, self.background_rect)
             # TODO: call Game.display_surface.blit() passing in self.background_image, self.background_rect
 
             # Draw tiles and update ruby maker
+            self.main_title_group.update()
+            self.main_title_group.draw(Game.display_surface)
             # TODO: call self.main_tile_group.update()
             # TODO: call self.main_tile_group.draw() passing in Game.display_surface
 
             # Update and draw sprite groups
+            self.portal_group.update()
+            self.portal_group.draw(Game.display_surface)
             # TODO: call self.portal_group.update()
             # TODO: call self.portal_group.draw() passing in Game.display_surface
 
+            self.player_group.update()
+            self.player_group.draw(Game.display_surface)
             # TODO: call self.player_group.update()
             # TODO: call self.player_group.draw() passing in Game.display_surface
 
+            self.bullet_group.update()
+            self.bullet_group.draw(Game.display_surface)
             # TODO: call self.bullet_group.update()
             # TODO: call self.bullet_group.draw() passing in Game.display_surface
 
+            self.zombie_group.update()
+            self.zombie_group.draw(Game.display_surface)
             # TODO: call self.zombie_group.update()
             # TODO: call self.zombie_group.draw() passing in Game.display_surface
 
+            self.ruby_group.update()
+            self.ruby_group.draw(Game.display_surface)
             # TODO: call self.ruby_group.update()
             # TODO: call self.ruby_group.draw() passing in Game.display_surface
 
             # Update and draw the game
+            self.update()
+            self.draw()
             # TODO: call self.update()
             # TODO: call self.draw()
 
             # Update the display and tick the clock
+            pygame.display.update()
+            Game.clock.tick(Game.FPS)
             # TODO: call pygame.display.update()
             # TODO: call Game.clock.tick() passing in Game.FPS
 
     def update(self):
         """Update the game"""
         # Update the round time every second
+        self.frame_count += 1
+        if self.frame_count / Game.FPS = 0:
+            self.round_time -= 1
+            self.frame_count = 0
+
+            self.check_collisions()
+            self.add_zombie()
+            self.check_round_completion()
+            self.check_game_over()
+
         # TODO: add 1 to self.frame_count
         # TODO: if self.frame_count % Game.FPS is 0
         # TODO: (1) subtract 1 from self.round_time
@@ -294,6 +321,10 @@ class Game:
     def add_zombie(self):
         """Add a zombie to the game"""
         # Check to add a zombie every second
+        if self.frame_count % Game.FPS = 0:
+            if self.round_time % self.zombie_create_time = 0:
+                zombie = Zombie(self.platform_group, self.portal_group, self.round_number,5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, and self.FPS)
+                self.zombie_group.add(zombie)
         # TODO: if self.frame_count % Game.FPS is 0 then
         # TODO: (1) check if self.round_time % self.zombie_creation_time is 0
         # TODO: (1-1) assign to zombie the Zombie() constructor passing in self.platform_group, self.portal_group, self.round_number
