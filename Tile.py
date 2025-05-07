@@ -13,18 +13,12 @@ class Tile(pygame.sprite.Sprite):
         elif image_int == 2:
             self.image = self.image = pygame.transform.scale(pygame.image.load("assets/images/tiles/Tile (2).png"), (32, 32))
             sub_group.add(self)
-            # TODO: just like image_int == 1.  store the transformed image in self.image.  This will use Tile (2).png
-            # TODO: 1 thing new.  add self to sub_group.  Just like you added self to main group down below.
         elif image_int == 3:
             self.image = pygame.transform.scale(pygame.image.load("assets/images/tiles/Tile (3).png"), (32, 32))
             sub_group.add(self)
-            # TODO: just like image_int == 1.  store the transformed image in self.image.  This will use Tile (3).png
-            # TODO: 1 thing new.  add self to sub_group.  Just like you added self to main group down below.
         elif image_int == 4:
             self.image = pygame.transform.scale(pygame.image.load("assets/images/tiles/Tile (4).png"), (32, 32))
             sub_group.add(self)
-            # TODO: just like image_int == 1.  store the transformed image in self.image.  This will use Tile (4).png
-            # TODO: 1 thing new.  add self to sub_group.  Just like you added self to main group down below.
         elif image_int == 5:
             self.image = pygame.transform.scale(pygame.image.load("assets/images/tiles/Tile (5).png"), (32, 32))
             sub_group.add(self)

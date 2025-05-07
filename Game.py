@@ -53,26 +53,6 @@ class Game:
         self.ruby_pickup_sound = pygame.mixer.Sound("assets/sounds/ruby_pickup.wav")
 
         pygame.mixer.music.load("assets/sounds/level_music.wav")
-        # TODO: assign 0 to self.score
-        # TODO: assign 1 to self.round_number
-        # TODO: assign 0 to self.frame_count
-        # TODO: assign self.STARTING_ZOMBIE_CREATION_TIME to self.zombie_create_time
-
-        # TODO: assign pygame.font.Font() to self.title_font.  The arguments for Font() are the font file location which is here
-        # "./assets/fonts/Poultrygeist.ttf" and the size which is 48
-
-        # TODO: assign pygame.font.Font() to self.HUD_font.  The arguments for Font() are the font file location which is here
-        # "./assets/fonts/Pixel.ttf" and the size which is 24
-
-        # Set Sounds
-        # TODO: assign pygame.mixer.Sound() to self.lost_ruby_sound.  The argument for Sound() is the sound file location which is here
-        # "assets/sounds/lost_ruby.wav"
-
-        # TODO: assign pygame.mixer.Sound() to self.ruby_pickup_sound.  The argument for Sound() is the sound file location which is here
-        # "assets/sounds/ruby_pickup.wav"
-
-        # TODO: call pygame.mixer.music.load().  The argument for load() is the background music file location which is here
-        # "assets/sounds/level_music.wav"
 
         # Create the tile map
         # 0 -> no tile, 1 -> dirt, 2-5 -> platforms, 6 -> ruby maker, 7-8 -> portals, 9 -> player
@@ -133,8 +113,6 @@ class Game:
         self.zombie_group = pygame.sprite.Group()
         self.portal_group = pygame.sprite.Group()
         self.ruby_group = pygame.sprite.Group()
-        # TODO: assign pygame.sprite.Group() to the following self variables
-        # main_tile_group, platform_group, player_group, bullet_group, zombie_group, portal_group, ruby_group
 
         # Generate Tile objects from the tile map
         # Loop through the 23 lists (rows) in the tile map (row moves us down the map)
@@ -148,41 +126,31 @@ class Game:
                 # Platform tiles
                 elif self.tile_map[row][col] == 2:
                     Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
-                    # TODO: call the Tile() constructor passing col * 32, row * 32, 2, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 3:
                     Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
-                    # TODO: call the Tile() constructor passing col * 32, row * 32, 3, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 4:
                     Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
-                    # TODO: call the Tile() constructor passing col * 32, row * 32, 4, self.main_title_group, self.platform_group
                 elif self.tile_map[row][col] == 5:
                     Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
-                    # TODO: call the Tile() constructor passing col * 32, row * 32, 5, self.main_title_group, self.platform_group
                 # Ruby Maker
                 elif self.tile_map[row][col] == 6:
                     RubyMaker(col * 32, row * 32, self.main_tile_group)
-                    # TODO: call the RubyMaker() constructor passing in col * 32, row * 32, self.main_tile_group
                 # Portals
                 elif self.tile_map[row][col] == 7:
                     Portal(col * 32, row * 32, "green", self.portal_group)
-                    # TODO: call the Portal() constructor passing in col * 32, row * 32, "green", and self.portal_group
 
                 elif self.tile_map[row][col] == 8:
                     Portal(col * 32, row * 32, "purple", self.portal_group)
-                    # TODO: call the Portal() constructor passing in col * 32, row * 32, "purple", and self.portal_group
                 # Player
                 elif self.tile_map[row][col] == 9:
                     self.my_player = Player(col * 32 - 32, row * 32 + 32, self.platform_group, self.portal_group, self.bullet_group, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
                     self.player_group.add(self.my_player)
-                    #TODO: assign to self.my_player the Player() constructor passing col * 32 - 32, row * 32 + 32,
-                    # self.platform_group, self.portal_group, self.bullet_group,
-                    # self.WINDOW_WIDTH, self.WINDOW_HEIGHT
+
                     # TODO: call self.player_group's add function and pass in self.my_player
 
         # Load in a background image (we must resize)
         self.background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
 
-        # TODO: assign pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
         # to self.background_image
         self.background_rect = self.background_image.get_rect()
         self.background_rect.topleft = (0, 0)
@@ -191,13 +159,6 @@ class Game:
         pygame.mixer.music.play(-1, 0.0)
 
         self.game_loop()
-        # TODO: assign self.background_image.get_rect() to self.background_rect
-        # TODO: assign (0, 0) to self.background_rect.topleft
-
-        # TODO: call self.pause_game() passing in "Zombie Knight", "Press 'Enter' to Begin"
-        # TODO: call pygame.mixer.music.play() passing in -1, and 0.0
-
-        # TODO: call self.game_loop()
 
     def game_loop(self):
         # The main game loop
@@ -217,19 +178,14 @@ class Game:
 
             # Blit the background
             Game.display_surface.blit(self.background_image, self.background_rect)
-            # TODO: call Game.display_surface.blit() passing in self.background_image, self.background_rect
 
             # Draw tiles and update ruby maker
             self.main_title_group.update()
             self.main_title_group.draw(Game.display_surface)
-            # TODO: call self.main_tile_group.update()
-            # TODO: call self.main_tile_group.draw() passing in Game.display_surface
 
             # Update and draw sprite groups
             self.portal_group.update()
             self.portal_group.draw(Game.display_surface)
-            # TODO: call self.portal_group.update()
-            # TODO: call self.portal_group.draw() passing in Game.display_surface
 
             self.player_group.update()
             self.player_group.draw(Game.display_surface)
@@ -238,53 +194,39 @@ class Game:
 
             self.bullet_group.update()
             self.bullet_group.draw(Game.display_surface)
-            # TODO: call self.bullet_group.update()
-            # TODO: call self.bullet_group.draw() passing in Game.display_surface
 
             self.zombie_group.update()
             self.zombie_group.draw(Game.display_surface)
-            # TODO: call self.zombie_group.update()
-            # TODO: call self.zombie_group.draw() passing in Game.display_surface
 
             self.ruby_group.update()
             self.ruby_group.draw(Game.display_surface)
-            # TODO: call self.ruby_group.update()
-            # TODO: call self.ruby_group.draw() passing in Game.display_surface
 
             # Update and draw the game
             self.update()
             self.draw()
-            # TODO: call self.update()
-            # TODO: call self.draw()
 
             # Update the display and tick the clock
             pygame.display.update()
             Game.clock.tick(Game.FPS)
-            # TODO: call pygame.display.update()
-            # TODO: call Game.clock.tick() passing in Game.FPS
 
     def update(self):
         """Update the game"""
         # Update the round time every second
         self.frame_count += 1
-        if self.frame_count / Game.FPS = 0:
+        if self.frame_count / Game.FPS == 0:
             self.round_time -= 1
             self.frame_count = 0
 
-            self.check_collisions()
-            self.add_zombie()
-            self.check_round_completion()
-            self.check_game_over()
+        self.check_collisions()
+        self.add_zombie()
+        self.check_round_completion()
+        self.check_game_over()
 
         # TODO: add 1 to self.frame_count
         # TODO: if self.frame_count % Game.FPS is 0
         # TODO: (1) subtract 1 from self.round_time
         # TODO: (2) set self.frame_count to 0
 
-        # TODO: call self.check_collisions()
-        # TODO: call self.add_zombie()
-        # TODO: call self.check_round_completion()
-        # TODO: call self.game_over()
 
     def draw(self):
         """Draw the game HUD"""
@@ -321,8 +263,8 @@ class Game:
     def add_zombie(self):
         """Add a zombie to the game"""
         # Check to add a zombie every second
-        if self.frame_count % Game.FPS = 0:
-            if self.round_time % self.zombie_create_time = 0:
+        if self.frame_count % Game.FPS == 0:
+            if self.round_time % self.zombie_create_time == 0:
                 zombie = Zombie(self.platform_group, self.portal_group, self.round_number,5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, and self.FPS)
                 self.zombie_group.add(zombie)
         # TODO: if self.frame_count % Game.FPS is 0 then

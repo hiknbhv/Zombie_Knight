@@ -14,14 +14,10 @@ class Ruby(pygame.sprite.Sprite):
         self.WINDOW_WIDTH = window_width
         self.WINDOW_HEIGHT = window_height
 
-        #TODO: create a self.VERTICAL_ACCELERATION variable and assign 3 to it
-        #TODO: create a self.HORIZONTAL_VELOCITY variable and assign 5 to it.
-        #TODO: create a self.WINDOW_WIDTH variable and assign window_width to it
-        #TODO: create a self.WINDOW_HEIGHT variable and assign window_height to it.
+
 
         #Animation frames
         self.ruby_sprites = []
-        #TODO: create a self.ruby_sprites variables and assign an empty list to it.  HINT:  []
 
         #Rotating
         self.ruby_sprites.append(
@@ -39,17 +35,12 @@ class Ruby(pygame.sprite.Sprite):
         self.ruby_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile006.png"), (64, 64)))
 
-        #TODO: so we've just added an image to our list of ruby_sprites.  repeate the previous line form tile's 001 to 006
 
         #Load image and get rect
         self.current_sprite = 0
         self.image = self.ruby_sprites[self.current_sprite]
         self.rect = self.image.get_rect()
         self.rect.bottomleft = (window_width //2, 100)
-        #TODO: create a self.current_sprite variable and assign 0 to it
-        #TODO: create a self.image variable and assign self.ruby_sprites[self.current_sprite] to it
-        #TODO: create a self.rect variable and assign self.image.get_rect() to it.
-        #TODO: create a self.rect.bottomleft variable and assign (window_width //2, 100) to it.
 
         #Attach sprite groups
         self.platform_group = platform_group
@@ -57,7 +48,6 @@ class Ruby(pygame.sprite.Sprite):
 
         #Load sounds
         self.portal_sound = pygame.mixer.Sound("assets/sounds/portal_sound.wav")
-        #TODO: create a self.portal_sound and assign pygame.mixer.Sound() to it.  pass in "assets/sounds/portal_sound.wav"
 
         #Kinematic vectors
         self.position = pygame.math.Vector2(self.rect.x, self.rect.y)
@@ -80,8 +70,7 @@ class Ruby(pygame.sprite.Sprite):
         # Calculate new kinematics values: (4, 1) + (2, 8) = (6, 9)
         self.velocity += self.acceleration
         self.position +=self.velocity + 0.5 * self.acceleration
-        #TODO: add self.acceleration to self.velocity.  HINT: when I say add y to x I mean x += y or x = x + y
-        #TODO: add self.velocity + 0.5 * self.acceleration to self.position
+
 
         #Update rect based on kinematic calculations and add wrap around movement
         if self.position.x < 0:
@@ -89,7 +78,6 @@ class Ruby(pygame.sprite.Sprite):
         elif self.position.x > self.WINDOW_WIDTH:
             self.position.x = 0
 
-        #TODO: assign self.position to self.rect.bottomleft.  HINT:  When I say assign y to x I mean x = y
         self.rect.bottomleft = self.position
 
     def check_collisions(self):
@@ -124,7 +112,3 @@ class Ruby(pygame.sprite.Sprite):
         else:
             self.current_sprite = 0
         self.image = sprite_list[int(self.current_sprite)]
-        #TODO: check if self.current_sprite is less than len(sprite_list) - 1.  If so add speed to self.current_sprite
-        #TODO: else assign 0 to self.current_sprite
-
-        #TODO: assign sprite_list[int(self.current_sprite)] to self.image.  When I say assign y to x I mean x = y
