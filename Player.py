@@ -8,32 +8,50 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, x, y, platform_group, portal_group, bullet_group, window_width, window_height):
         """Initialize the player"""
+        super.__init__()
         #TODO: call super init so that the backing Sprite class gets all of its fields and methods created.
 
         #Set constant variables
-        #TODO: create a self.HORIZONTAL_ACCELERATION variable and assign 2 to it.
-        #TODO: create a self.HORIZONTAL_FRICTION variable and assign 0.15 to it.
-        #TODO: create a self.VERTICAL_ACCELERATION variable and assign 0.8 to it.
-        #TODO: create a self.VERTICAL_JUMP_SPEED and assign 18 to it.
-        #TODO: create a self.STARTING_HEALTH and assign 100 to it.
-        #TODO: create a self.WINDOW_WIDTH assign window_width to it.
-        #TODO: create a self.WINDOW_HEIGHT assign window_height to it.
+        self.HORIZONTAL_ACCELERATION = 2
+        self.HORIZONTAL_FRICTION = .15
+        self.VERTICAL_ACCELERATION = .8
+        self.VERTICAL_JUMP_SPEED = 18
+        self.STARTING_HEALTH = 100
+        self.WINDOW_WIDTH = window_width
+        self.WINDOW_HEIGHT = window_height
 
         #Animation frames
-        #TODO: create a self.move_right_sprites and assign [] to it.
-        #TODO: create a self.move_left_sprites and assign [] to it.
-        #TODO: create a self.idle_right_sprites and assign [] to it.
-        #TODO: create a self.idle_left_sprites and assign [] to it.
-        #TODO: create a self.jump_right_sprites and assign [] to it.
-        #TODO: create a self.jump_left_sprites and assign [] to it.
-        #TODO: create a self.attack_right_sprites and assign [] to it.
-        #TODO: create a self.attack_left_sprites and assign [] to it.
+        self.move_right_sprites = []
+        self.move_left_sprites = []
+        self.idle_right_sprites = []
+        self.idle_left_sprites = []
+        self.jump_right_sprites = []
+        self.jump_left_sprites = []
+        self.attack_right_sprites = []
+        self.attack_left_sprites = []
 
 
         #Moving
         self.move_right_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (1).png"), (64, 64)))
-        # TODO: repeat for Run (2).png through Run (10).png
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (2).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (3).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (4).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (5).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (6).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (7).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (8).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (9).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (10).png"), (64, 64)))
 
         for sprite in self.move_right_sprites:
             self.move_left_sprites.append(pygame.transform.flip(sprite, True, False))
@@ -41,7 +59,24 @@ class Player(pygame.sprite.Sprite):
         #Idling
         self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
             "./assets/images/player/idle/Idle (1).png"), (64, 64)))
-        # TODO: repeat for Idle (2).png through Idle (10).png
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (2).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (3).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (4).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (5).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (6).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (7).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (8).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (9).png"), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/idle/Idle (10).png"), (64, 64)))
 
         for sprite in self.idle_right_sprites:
             self.idle_left_sprites.append(pygame.transform.flip(sprite, True, False))
@@ -49,7 +84,24 @@ class Player(pygame.sprite.Sprite):
         #Jumping
         self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
             "./assets/images/player/jump/Jump (1).png"), (64, 64)))
-        # TODO: repeat for Jump (2).png through Jump (10).png
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (2).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (3png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (4).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (5).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (6).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (7).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (8).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (9).png"), (64, 64)))
+        self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/jump/Jump (10).png"), (64, 64)))
 
         for sprite in self.jump_right_sprites:
             self.jump_left_sprites.append(pygame.transform.flip(sprite, True, False))
@@ -57,52 +109,69 @@ class Player(pygame.sprite.Sprite):
         #Attacking
         self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
             "./assets/images/player/attack/Attack (1).png"), (64, 64)))
-        # TODO: repeat for Attack (2).png through Attack (10).png
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (2).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (3).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (4).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (5).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (6).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (7).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (8).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (9).png"), (64, 64)))
+        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load(
+            "./assets/images/player/attack/Attack (10).png"), (64, 64)))
 
         for sprite in self.attack_right_sprites:
             self.attack_left_sprites.append(pygame.transform.flip(sprite, True, False))
 
         #Load image and get rect
-        #TODO: create a self.current_sprite and 0 to it.
-        #TODO: create a self.image and assign self.idle_right_sprites[self.current_sprite] to it.
-        #TODO: create a self.rect and assign self.image.get_rect() to it.
-        #TODO: assign the tuple (x, y) to self.rect.bottomleft.  When I say assign y to x.  I mean x = y.
+        self.current_sprite = 0
+        self.image = self.idle_right_sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.bottomleft = (x ,y)
 
-        #TODO: create a self.mask variable and assign pygame.mask.from_surface() to it passing in the from_surface() function self.image.
+        self.mask = pygame.mask.from_surface(self.image)
 
         #Attach sprite groups
-        #TODO: create a self.platform_group and assign platform_group to it.
-        #TODO: create a self.portal_group and assign portal_group to it.
-        #TODO: create a self.bullet_group and assign bullet_group to it.
+        self.platform_group = platform_group
+        self.portal_group = portal_group
+        self.bullet_group = bullet_group
 
         #Animation booleans
-        #TODO: create a self.animate_jump and assign False to it.
-        #TODO: create a self.animate_fire and assign False to it.
+        self.animate_jump = False
+        self.animate_fire = False
 
         #Load sounds
-        #TODO: create a self.jump_sound and assign pygame.mixer.Sound() to it.  pass in "assets/sounds/jump_sound.wav" into the Sound() constructor.
-        #TODO: create a self.slash_sound and assign pygame.mixer.Sound() to it.  pass in ""assets/sounds/slash_sound.wav"" into the Sound() constructor.
-        #TODO: create a self.portal_sound and assign pygame.mixer.Sound() to it.  pass in "assets/sounds/portal_sound.wav" into the Sound() constructor.
-        #TODO: create a self.hit_sound and assign pygame.mixer.Sound() to it.  pass in "assets/sounds/player_hit.wav" into the Sound() constructor.
+        self.jump_sound = pygame.mixer.Sound("assets/sounds/jump_sound.wav")
+        self.slash_sound = pygame.mixer.Sound("assets/sounds/slash_sound.wav")
+        self.portal_sound = pygame.mixer.Sound("assets/sounds/portal_sound.wav")
+        self.hit_sound = pygame.mixer.Sound("assets/sounds/player_hit.wav")
 
         #Kinematics vectors
-        #TODO: create a self.position variable and assign pygame.math.Vector2() to it passing in x, y
-        #TODO: create a self.velocity variable and assign pygame.math.Vector2() to it passing in 0, 0
-        #TODO: create a self.acceleration variable and assign pygame.math.Vector2() to it passing in 0, self.VERTICAL_ACCELERATION.
+        self.position = pygame.math.Vector2(x, y)
+        self.velocity = pygame.math.Vector2(0, 0)
+        self.acceleration = pygame.math.Vector2(0, self.VERTICAL_ACCELERATION)
 
         #Set initial player values
-        #TODO: create a self.health variable and assign self.STARTING_HEALTH to it
-        #TODO: create a self.starting_x variable and assign x to it
-        #TODO: create a self.starting_y variable and assign y to it
+        self.health =  self.STARTING_HEALTH
+        self.starting_x = x
+        self.starting_y = y
 
     def update(self):
         """Update the player"""
-        #TODO: call self.move()
-        #TODO: call self.check_collisions()
-        #TODO: call self.check_animations()
+        self.move()
+        self.check_collisions()
+        self.check_animations()
 
         #Update the players mask
-        #TODO:  assign pygame.mask.from_surface(self.image) to self.mask.  HINT:  Remember how the from assign this to that works in previous examples and instructions.
+        self.mask = pygame.mask.from_surface(self.image)
 
     def move(self):
         """Move the player"""
@@ -140,8 +209,7 @@ class Player(pygame.sprite.Sprite):
         """Check for collisions with platforms and portals"""
         #Collision check between player and platforms when falling
         if self.velocity.y > 0:
-            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
-                                                             pygame.sprite.collide_mask)
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False, pygame.sprite.collide_mask())
             if collided_platforms:
                 self.position.y = collided_platforms[0].rect.top + 5
                 self.velocity.y = 0
@@ -149,7 +217,7 @@ class Player(pygame.sprite.Sprite):
         #Collision check between player and platform if jumping up
         if self.velocity.y < 0:
             collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
-                                                             pygame.sprite.collide_mask)
+                                                             pygame.sprite.collide_mask())
             if collided_platforms:
                 self.velocity.y = 0
                 while pygame.sprite.spritecollide(self, self.platform_group, False):
@@ -192,31 +260,33 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         """Jump upwards if on a platform"""
         #Only jump if on a platform
-        #TODO: check if pygame.sprite.spritecollide() is true passing in self. self.platform_group, and False into spritecollide()
-        #TODO: if so do the following numbered items.  The numbered items are in the if block.
-        #TODO: (1): call self.jump_sound's play() method
-        #TODO: (2): assign -1 * self.VERTICAL_JUMP_SPEED to self.velocity.y
-        #TODO: (3): assign True to self.animate_jump
+
+        if pygame.sprite.spritecollide(self, self.platform_group, False):
+            self.jump_sound.play()
+            self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
+            self.animate_jump = True
+
 
     def fire(self):
         """Fire a 'bullet' from a sword"""
-        #TODO: call self.slash_sound.play()
-        #TODO: call the Bullet constructor:  Bullet() passing in self.rect.centerx, self.rect.centery, self.bullet_group, and self
-        #TODO: assign True to self.animate_fire
+        self.slash_sound.play()
+        Bullet(self.rect.centerx, self.rect.centery, self.bullet_group, self)
+        self.animate_fire = True
 
     def reset(self):
         """Reset the player's position"""
-        #TODO:  HINT:  remember assigning this to that means in code that = this.
-        #TODO: assign pygame.math.Vector2(0, 0) to self.velocity.
-        #TODO: assign pygame.math.Vector2(self.starting_x, self.starting_y) to self.position
-        #TODO: assign self.position to self.rect.bottomleft
+        self.velocity = pygame.math.Vector2(0, 0)
+        self.position = pygame.math.Vector2(self.starting_x, self.starting_y)
+        self.rect.bottomleft = self.position
 
     def animate(self, sprite_list, speed):
         """Animate the player's actions"""
-        #TODO: Check the condition with an if statement.  self.current_sprite < len(sprite_list) - 1.
-        #TODO: if the condition is true add speed to self.current_sprite.  HINT:  be careful here.  Remember how this statement works.
-        #TODO: else:  do the following.  I will number the TODO's that are contained in the self
-        #TODO: (1):  assign 0 to self.current_sprite
-        #TODO: (2): check if self.animate_jump is true.  If so assign False to self.animate_jump.
-        #TODO: (3): check if self.animate_fire is true.  If so assign False to self.animate_fire.
-        #TODO: assign sprite_list[int(self.current_sprite)] to self.image.
+        if self.current_sprite < len(sprite_list) - 1 == True:
+            self.current_sprite += speed
+        else:
+            self.current_sprite = 0
+            if self.animate_jump == True:
+                self.animate_jump = False
+            if self.animate_fire == True:
+                self.animate_fire = False
+        self.image = sprite_list[int(self.current_sprite)]

@@ -34,9 +34,7 @@ class Game:
         self.running  =  True
         self.STARTING_ROUND_TIME = 30
         self.STARTING_ZOMBIE_CREATION_TIME = 5
-        # TODO: assign True to self.running
-        # TODO: assign 30 to self.STARTING_ROUND_TIME
-        # TODO: assign 5 to self.STARTING_ZOMBIE_CREATION_TIME
+
 
         # Set game values
         self.score = 0
@@ -109,6 +107,7 @@ class Game:
         # Create sprite groups
         self.main_title_group = pygame.sprite.Group()
         self.platform_group = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
         self.zombie_group = pygame.sprite.Group()
         self.portal_group = pygame.sprite.Group()
@@ -127,14 +126,14 @@ class Game:
                 elif self.tile_map[row][col] == 2:
                     Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
                 elif self.tile_map[row][col] == 3:
-                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 3, self.main_title_group, self.platform_group)
                 elif self.tile_map[row][col] == 4:
-                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 4, self.main_title_group, self.platform_group)
                 elif self.tile_map[row][col] == 5:
-                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 5, self.main_title_group, self.platform_group)
                 # Ruby Maker
                 elif self.tile_map[row][col] == 6:
-                    RubyMaker(col * 32, row * 32, self.main_tile_group)
+                    RubyMaker(col * 32, row * 32, self.main_title_group)
                 # Portals
                 elif self.tile_map[row][col] == 7:
                     Portal(col * 32, row * 32, "green", self.portal_group)
