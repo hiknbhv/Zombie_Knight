@@ -35,7 +35,6 @@ class Game:
         self.STARTING_ROUND_TIME = 30
         self.STARTING_ZOMBIE_CREATION_TIME = 5
 
-
         # Set game values
         self.score = 0
         self.round_number = 1
@@ -43,14 +42,13 @@ class Game:
         self.round_time = self.STARTING_ROUND_TIME
         self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
 
+        # Set fonts
         self.title_font = pygame.font.Font("./assets/fonts/Poultrygeist.ttf", 48)
-
         self.HUD_font = pygame.font.Font("./assets/fonts/Pixel.ttf", 24)
 
+        # Set sounds
         self.lost_ruby_sound = pygame.mixer.Sound("assets/sounds/lost_ruby.wav")
-
         self.ruby_pickup_sound = pygame.mixer.Sound("assets/sounds/ruby_pickup.wav")
-
         pygame.mixer.music.load("assets/sounds/level_music.wav")
 
         # Create the tile map
@@ -106,11 +104,14 @@ class Game:
         ]
 
         # Create sprite groups
-        self.main_title_group = pygame.sprite.Group()
+        self.main_tile_group = pygame.sprite.Group()
         self.platform_group = pygame.sprite.Group()
+
         self.player_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
+
         self.zombie_group = pygame.sprite.Group()
+
         self.portal_group = pygame.sprite.Group()
         self.ruby_group = pygame.sprite.Group()
 
@@ -121,37 +122,32 @@ class Game:
             for col in range(len(self.tile_map[row])):
                 # Dirt tiles
                 if self.tile_map[row][col] == 1:
-                    Tile(col * 32, row * 32, 1, self.main_title_group)
-                    # TODO: call the Tile() constructor passing col * 32, row * 32, 1, self.main_title_group
+                    Tile(col * 32, row * 32, 1, self.main_tile_group)
                 # Platform tiles
                 elif self.tile_map[row][col] == 2:
-                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 2, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 3:
-                    Tile(col * 32, row * 32, 3, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 3, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 4:
-                    Tile(col * 32, row * 32, 4, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 4, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 5:
-                    Tile(col * 32, row * 32, 5, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 5, self.main_tile_group, self.platform_group)
                 # Ruby Maker
                 elif self.tile_map[row][col] == 6:
-                    RubyMaker(col * 32, row * 32, self.main_title_group)
+                    RubyMaker(col * 32, row * 32, self.main_tile_group)
                 # Portals
                 elif self.tile_map[row][col] == 7:
                     Portal(col * 32, row * 32, "green", self.portal_group)
-
                 elif self.tile_map[row][col] == 8:
                     Portal(col * 32, row * 32, "purple", self.portal_group)
                 # Player
                 elif self.tile_map[row][col] == 9:
-                    self.my_player = Player(col * 32 - 32, row * 32 + 32, self.platform_group, self.portal_group, self.bullet_group, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
+                    self.my_player = Player(col * 32 - 32, row * 32 + 32, self.platform_group, self.portal_group,
+                                            self.bullet_group, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
                     self.player_group.add(self.my_player)
-
-                    # TODO: call self.player_group's add function and pass in self.my_player
 
         # Load in a background image (we must resize)
         self.background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
-
-        # to self.background_image
         self.background_rect = self.background_image.get_rect()
         self.background_rect.topleft = (0, 0)
 
@@ -180,8 +176,8 @@ class Game:
             Game.display_surface.blit(self.background_image, self.background_rect)
 
             # Draw tiles and update ruby maker
-            self.main_title_group.update()
-            self.main_title_group.draw(Game.display_surface)
+            self.main_tile_group.update()
+            self.main_tile_group.draw(Game.display_surface)
 
             # Update and draw sprite groups
             self.portal_group.update()
@@ -211,7 +207,7 @@ class Game:
         """Update the game"""
         # Update the round time every second
         self.frame_count += 1
-        if self.frame_count / Game.FPS == 0:
+        if self.frame_count % Game.FPS == 0:
             self.round_time -= 1
             self.frame_count = 0
 
@@ -256,14 +252,11 @@ class Game:
         """Add a zombie to the game"""
         # Check to add a zombie every second
         if self.frame_count % Game.FPS == 0:
+            # Only add a zombie if zombie creation time has passed
             if self.round_time % self.zombie_creation_time == 0:
-                zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, self.FPS)
+                zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number,
+                                self.WINDOW_WIDTH, self.WINDOW_HEIGHT, self.FPS)
                 self.zombie_group.add(zombie)
-        # TODO: if self.frame_count % Game.FPS is 0 then
-        # TODO: (1) check if self.round_time % self.zombie_creation_time is 0
-        # TODO: (1-1) assign to zombie the Zombie() constructor passing in self.platform_group, self.portal_group, self.round_number
-        # 5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, and self.FPS
-        # TODO: (1-2): call self.zombie_group's add method and pass in zombie
 
     def check_collisions(self):
         """Check collisions that affect gameplay"""
@@ -314,18 +307,16 @@ class Game:
                     self.zombie_group.add(zombie)
 
     def check_round_completion(self):
-        """Check if the player survived a single night."""
+        """Check if the player survived a single night"""
         if self.round_time == 0:
             self.start_new_round()
-        # TODO: if self.round_time is 0 then call self.start_new_round()
 
     def check_game_over(self):
         """Check to see if the player lost the game"""
         if self.my_player.health <= 0:
             pygame.mixer.music.stop()
-            self.pause_game("Game Over! Final Score:" + str(self.score), "Press 'Enter' to play again...")
+            self.pause_game("Game Over! Final Score: " + str(self.score), "Press 'Enter' to play again...")
             self.reset_game()
-
 
     def start_new_round(self):
         """Start a new night"""
@@ -333,7 +324,7 @@ class Game:
 
         # Decrease zombie creation time...more zombies
         if self.round_number < self.STARTING_ZOMBIE_CREATION_TIME:
-            self.zombie_create_time -= 1
+            self.zombie_creation_time -= 1
 
         # Reset round values
         self.round_time = self.STARTING_ROUND_TIME
@@ -344,7 +335,7 @@ class Game:
 
         self.my_player.reset()
 
-        self.pause_game("You survived the night", "Press 'Enter' to continue...")
+        self.pause_game("You survived the night!", "Press 'Enter' to continue...")
 
     def pause_game(self, main_text, sub_text):
         """Pause the game"""
@@ -355,7 +346,7 @@ class Game:
         main_rect = main_text.get_rect()
         main_rect.center = (Game.WINDOW_WIDTH // 2, Game.WINDOW_HEIGHT // 2)
 
-        #Create sub pause text
+        # Create sub pause text
         sub_text = self.title_font.render(sub_text, True, Game.WHITE)
         sub_rect = sub_text.get_rect()
         sub_rect.center = (Game.WINDOW_WIDTH // 2, Game.WINDOW_HEIGHT // 2 + 64)
@@ -371,22 +362,23 @@ class Game:
         while is_paused:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
+                    # User wants to continue
                     if event.key == pygame.K_RETURN:
                         is_paused = False
                         pygame.mixer.music.unpause()
+                # User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False
                     self.running = False
                     pygame.mixer.music.stop()
 
-
     def reset_game(self):
         """Reset the game"""
         # Reset game values
-        score = 0
-        round_number = 1
-        round_time = self.STARTING_ROUND_TIME
-        zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
+        self.score = 0
+        self.round_number = 1
+        self.round_time = self.STARTING_ROUND_TIME
+        self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         # Reset the player
         self.my_player.health = self.my_player.STARTING_HEALTH
@@ -398,4 +390,3 @@ class Game:
         self.bullet_group.empty()
 
         pygame.mixer.music.play(-1, 0.0)
-
