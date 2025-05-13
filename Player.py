@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, x, y, platform_group, portal_group, bullet_group, window_width, window_height):
         """Initialize the player"""
-        super.__init__()
+        super().__init__()
         #TODO: call super init so that the backing Sprite class gets all of its fields and methods created.
 
         #Set constant variables
@@ -29,7 +29,6 @@ class Player(pygame.sprite.Sprite):
         self.jump_left_sprites = []
         self.attack_right_sprites = []
         self.attack_left_sprites = []
-
 
         #Moving
         self.move_right_sprites.append(
@@ -87,7 +86,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
             "./assets/images/player/jump/Jump (2).png"), (64, 64)))
         self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
-            "./assets/images/player/jump/Jump (3png"), (64, 64)))
+            "./assets/images/player/jump/Jump (3).png"), (64, 64)))
         self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
             "./assets/images/player/jump/Jump (4).png"), (64, 64)))
         self.jump_right_sprites.append(pygame.transform.scale(pygame.image.load(
@@ -135,7 +134,7 @@ class Player(pygame.sprite.Sprite):
         self.current_sprite = 0
         self.image = self.idle_right_sprites[self.current_sprite]
         self.rect = self.image.get_rect()
-        self.rect.bottomleft = (x ,y)
+        self.rect.bottomleft = (x, y)
 
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -160,7 +159,7 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = pygame.math.Vector2(0, self.VERTICAL_ACCELERATION)
 
         #Set initial player values
-        self.health =  self.STARTING_HEALTH
+        self.health = self.STARTING_HEALTH
         self.starting_x = x
         self.starting_y = y
 
@@ -209,7 +208,8 @@ class Player(pygame.sprite.Sprite):
         """Check for collisions with platforms and portals"""
         #Collision check between player and platforms when falling
         if self.velocity.y > 0:
-            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False, pygame.sprite.collide_mask())
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
+                                                             pygame.sprite.collide_mask)
             if collided_platforms:
                 self.position.y = collided_platforms[0].rect.top + 5
                 self.velocity.y = 0
@@ -217,7 +217,7 @@ class Player(pygame.sprite.Sprite):
         #Collision check between player and platform if jumping up
         if self.velocity.y < 0:
             collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False,
-                                                             pygame.sprite.collide_mask())
+                                                             pygame.sprite.collide_mask)
             if collided_platforms:
                 self.velocity.y = 0
                 while pygame.sprite.spritecollide(self, self.platform_group, False):
@@ -266,7 +266,6 @@ class Player(pygame.sprite.Sprite):
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
             self.animate_jump = True
 
-
     def fire(self):
         """Fire a 'bullet' from a sword"""
         self.slash_sound.play()
@@ -281,12 +280,12 @@ class Player(pygame.sprite.Sprite):
 
     def animate(self, sprite_list, speed):
         """Animate the player's actions"""
-        if self.current_sprite < len(sprite_list) - 1 == True:
+        if self.current_sprite < len(sprite_list) - 1:
             self.current_sprite += speed
         else:
             self.current_sprite = 0
-            if self.animate_jump == True:
+            if self.animate_jump:
                 self.animate_jump = False
-            if self.animate_fire == True:
+            if self.animate_fire:
                 self.animate_fire = False
         self.image = sprite_list[int(self.current_sprite)]

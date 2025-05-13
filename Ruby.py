@@ -1,6 +1,7 @@
 import pygame
 import random
 
+
 class Ruby(pygame.sprite.Sprite):
     """A class the player must collect to earn points and health"""
 
@@ -13,8 +14,6 @@ class Ruby(pygame.sprite.Sprite):
         self.HORIZONTAL_VELOCITY = 5
         self.WINDOW_WIDTH = window_width
         self.WINDOW_HEIGHT = window_height
-
-
 
         #Animation frames
         self.ruby_sprites = []
@@ -35,12 +34,11 @@ class Ruby(pygame.sprite.Sprite):
         self.ruby_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile006.png"), (64, 64)))
 
-
         #Load image and get rect
         self.current_sprite = 0
         self.image = self.ruby_sprites[self.current_sprite]
         self.rect = self.image.get_rect()
-        self.rect.bottomleft = (window_width //2, 100)
+        self.rect.bottomleft = (window_width // 2, 100)
 
         #Attach sprite groups
         self.platform_group = platform_group
@@ -56,9 +54,9 @@ class Ruby(pygame.sprite.Sprite):
 
     def update(self):
         """Update the ruby"""
-        self.animate(self.ruby_spites, 0.25)
+        self.animate(self.ruby_sprites, 0.25)
         self.move()
-        self.check_colllisions()
+        self.check_collisions()
         #TODO: call self.animate() passing in self.ruby_sprites and 0.25 into the function
         #TODO: call self.move()
         #TODO: call self.check_collisions()
@@ -69,8 +67,7 @@ class Ruby(pygame.sprite.Sprite):
 
         # Calculate new kinematics values: (4, 1) + (2, 8) = (6, 9)
         self.velocity += self.acceleration
-        self.position +=self.velocity + 0.5 * self.acceleration
-
+        self.position += self.velocity + 0.5 * self.acceleration
 
         #Update rect based on kinematic calculations and add wrap around movement
         if self.position.x < 0:

@@ -18,7 +18,9 @@ class Bullet(pygame.sprite.Sprite):
 
         else:
             # almost the same as in the if part.
-            self.image = pygame.transform.scale(pygame.transform.flip(pygame.image.load("assets/images/player/slash.png"), True, False), (32, 32))
+            self.image = pygame.transform.scale(
+                pygame.transform.flip(pygame.image.load("assets/images/player/slash.png"), True, False), (32, 32))
+            self.VELOCITY = -1 * self.VELOCITY
 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -34,5 +36,3 @@ class Bullet(pygame.sprite.Sprite):
         #If the bullet has passed the range, kill it
         if abs(self.rect.x - self.starting_x) > self.RANGE:
             self.kill()
-
-

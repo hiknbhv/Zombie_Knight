@@ -8,11 +8,10 @@ class RubyMaker(pygame.sprite.Sprite):
         """Initialize the ruby maker"""
         super().__init__()
 
-        #Animation frames
+        # Animation frames
         self.ruby_sprites = []
 
-
-        #Rotating
+        # Rotating
         self.ruby_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile000.png"), (64, 64)))
         self.ruby_sprites.append(
@@ -27,18 +26,18 @@ class RubyMaker(pygame.sprite.Sprite):
             pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile005.png"), (64, 64)))
         self.ruby_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile006.png"), (64, 64)))
-        #Load image and get rect
+        # Load image and get rect
         self.current_sprite = 0
         self.image = self.ruby_sprites[self.current_sprite]
-        self.image = self.image.get_rect()
-        self.rect.bottomleft = (x,y)
+        self.rect = self.image.get_rect()
+        self.rect.bottomleft = (x, y)
 
-        #TODO: assign 0 to self.current_sprite.  HINT:  When I say assign y to x I mean x = y
-        #TODO: assign self.ruby_sprites[self.current_sprite] to self.image
-        #TODO: assign self.image.get_rect() to self.image
-        #TODO: assign (x, y) to self.rect.bottomleft
+        # TODO: assign 0 to self.current_sprite.  HINT:  When I say assign y to x I mean x = y
+        # TODO: assign self.ruby_sprites[self.current_sprite] to self.image
+        # TODO: assign self.image.get_rect() to self.image
+        # TODO: assign (x, y) to self.rect.bottomleft
 
-        #Add to the main group for drawing purposes
+        # Add to the main group for drawing purposes
         main_group.add(self)
 
     def update(self):

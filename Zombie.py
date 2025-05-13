@@ -9,7 +9,7 @@ class Zombie(pygame.sprite.Sprite):
 
     def __init__(self, platform_group, portal_group, min_speed, max_speed, window_width, window_height, fps):
         """Initialize the zombie"""
-        super.__init__()
+        super().__init__()
 
         # TODO: call super init so that the backing Sprite class gets all of its fields and methods created.
 
@@ -65,8 +65,6 @@ class Zombie(pygame.sprite.Sprite):
             self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load(
                 "assets/images/zombie/boy/walk/Walk (10).png"), (64, 64)))
 
-
-            # TODO: repeat for Walk (2).png through Walk (10).png
 
             for sprite in self.walk_right_sprites:
                 self.walk_left_sprites.append(pygame.transform.flip(sprite, True, False))
@@ -217,7 +215,7 @@ class Zombie(pygame.sprite.Sprite):
         #TODO: else:  assign self.walk_right_sprites[self.current_sprite] to self.image.
 
         self.rect = self.image.get_rect()
-        self.rect.bottomleft = (random.randint(100,self.WINDOW_WIDTH - 100), -100)
+        self.rect.bottomleft = (random.randint(100, self.WINDOW_WIDTH - 100), -100)
         #TODO: assign self.image.get_rect() to self.rect.
         #TODO: assign to self.rect.bottomleft the values of (random.randint(100, self.WINDOW_WIDTH - 100), -100)
 
@@ -285,11 +283,10 @@ class Zombie(pygame.sprite.Sprite):
             self.position += self.velocity + .5 * self.acceleration
             if self.position.x < 0:
                 self.position.x = self.WINDOW_WIDTH
-            elif self.position.x >self.WINDOW_WIDTH:
+            elif self.position.x > self.WINDOW_WIDTH:
                 self.position.x = 0
             else:
                 self.rect.bottomleft = self.position
-
 
     def check_collisions(self):
         """Check for collisions with platforms and portals"""
@@ -324,16 +321,11 @@ class Zombie(pygame.sprite.Sprite):
         else:
             self.animate(self.die_left_sprites, 0.095)
 
-
         # Animate the zombie rise
         if self.direction == 1:
             self.animate(self.rise_right_sprites, 0.095)
         else:
             self.animate(self.rise_left_sprites, 0.095)
-
-
-
-
 
     def animate(self, sprite_list, speed):
         """Animate the zombie's actions"""
